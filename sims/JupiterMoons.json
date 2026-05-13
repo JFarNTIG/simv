@@ -1,0 +1,52 @@
+{
+    "grav_const": 6.6843e-20,
+    "time_scale": 3600.0,
+    "bodies": [
+        {
+            "pos": [0.0, 0.0],
+            "vel": [0.0, 0.0],
+            "radius": 69911.0,
+            "mass": 1.89813e27,
+            "name": "Jupiter",
+            "color": [1.0, 0.6, 0.2, 1.0],
+            "immovable": false
+        },
+
+        {
+            "pos": [421700.0, 0.0],
+            "vel": [0.0, 17.334],
+            "radius": 1821.6,
+            "mass": 8.9319e22,
+            "name": "Io",
+            "color": [1.0, 0.9, 0.6, 1.0],
+            "immovable": false
+        },
+        {
+            "pos": [0.0, -671100.0],
+            "vel": [13.74, 0.0],
+            "radius": 1560.8,
+            "mass": 4.7998e22,
+            "name": "Europa",
+            "color": [0.9, 0.9, 1.0, 1.0],
+            "immovable": false
+        },
+        {
+            "pos": [-1070400.0, 0.0],
+            "vel": [0.0, -10.88],
+            "radius": 2634.1,
+            "mass": 1.4819e23,
+            "name": "Ganymede",
+            "color": [0.6, 0.6, 0.7, 1.0],
+            "immovable": false
+        },
+        {
+            "pos": [0.0, 1882700.0],
+            "vel": [-8.20, 0.0],
+            "radius": 2410.3,
+            "mass": 1.0759e23,
+            "name": "Callisto",
+            "color": [0.5, 0.5, 0.5, 1.0],
+            "immovable": false
+        }
+    ]
+}

@@ -1,0 +1,24 @@
+{
+    "grav_const": 6.6843e-20,
+    "time_scale": 86400.0,
+    "bodies": [
+        {
+            "pos": [0.0, 0.0],
+            "vel": [0.0, 0.0],
+            "radius": 6378.0,
+            "mass": 5.97219e24,
+            "name": "Earth",
+            "color": [0.0, 0.0, 1.0, 1.0],
+            "immovable": false
+        },
+        {
+            "pos": [356400.0, 10.0],
+            "vel": [0.0, 1.102],
+            "radius": 1738.0,
+            "mass": 7.34768309e22,
+            "name": "Moon",
+            "color": [0.0, 0.0, 1.0, 1.0],
+            "immovable": false
+        }
+    ]
+}
