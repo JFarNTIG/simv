@@ -39,6 +39,10 @@ pub struct SimConfig {
     /// Whether to display the Lagrangian for
     /// selected bodies.
     pub render_lagrangian: bool,
+
+    /// Whether to display forces acting on
+    /// the selected body.
+    pub render_forces: bool,
 }
 
 impl SimConfig {
@@ -51,6 +55,7 @@ impl SimConfig {
             render_ke: true,
             render_pe: true,
             render_lagrangian: false,
+            render_forces: false,
         }
     }
 }

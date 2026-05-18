@@ -2,7 +2,7 @@ use std::{thread, sync::{Mutex, Arc}, collections::VecDeque};
 use rfd::FileDialog;
 use macroquad::{prelude::*, ui::{root_ui, hash}};
 
-use crate::{sim_state::SimState, actions::AppAction, drawing::draw_selection_box};
+use crate::{sim_state::SimState, actions::AppAction, drawing::{draw_selection_box, draw_arrow}, body::Body};
 
 pub type Task = Box<dyn FnOnce(&Arc<Mutex<SimState>>) + Send>;
 
@@ -229,6 +229,36 @@ impl Widget for PhysicsOverlays {
                 for (i, info_line) in body_info.iter().enumerate() {
                     draw_text(info_line.as_str(), screen_pos.x + 10.0, screen_pos.y + 18.0 + 18.0 * i as f32, 16.0, WHITE);
                 }
+
+                // Render forces acting on the body
+                if state.config.render_forces {
+                    for force in &body.forces {
+                        // Forces are in kN, need to convert to N
+                        // with factor of 1000
+                        let force_mag = force.force.length() * 1000.0f64;
+                        let invert_y = Vec2::new(1.0, -1.0);
+                        let force_screen = 60.0 * force.force.normalize().as_vec2() * invert_y;
+                        let force_end_screen = screen_pos + force_screen;
+                        let force_half_screen = screen_pos + 0.5 * force_screen;
+
+                        let font_character_size = 16.0;
+                        let font_character_width = font_character_size * 0.6;
+                        let force_label1 = format!("{:.2e} N", force_mag);
+                        let label1_width = force_label1.len() as f32 * font_character_width;
+
+                        let other_body: Option<&Body> = state.uni.bodies.get(force.from);
+                        let other_name: &str = match other_body {
+                            Some(other_body) => &other_body.name,
+                            None => "?"
+                        };
+                        let force_label2 = format!("from {}", other_name);
+                        let label2_width = force_label2.len() as f32 * font_character_width;
+
+                        draw_arrow(screen_pos.x, screen_pos.y, force_end_screen.x, force_end_screen.y, 1.0, YELLOW);
+                        draw_text(&force_label1, force_half_screen.x - 4.0 - label1_width, force_half_screen.y - 20.0, font_character_size, YELLOW);
+                        draw_text(&force_label2, force_half_screen.x - 4.0 - label2_width, force_half_screen.y + 0.0, font_character_size, YELLOW);
+                    }
+                }
             }
         }
 
@@ -286,6 +316,7 @@ impl Widget for SettingsWindow {
             ui.checkbox(hash!(), "Show Kinetic Energy", &mut state.config.render_ke);
             ui.checkbox(hash!(), "Show Potential Energy", &mut state.config.render_pe);
             ui.checkbox(hash!(), "Show Lagrangian", &mut state.config.render_lagrangian);
+            ui.checkbox(hash!(), "Show Forces", &mut state.config.render_forces);
 
             if ui.button(vec2(180.0, 370.0), "Done") {
                 done = true;
