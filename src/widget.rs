@@ -19,6 +19,7 @@ pub enum WidgetType {
     StatusOverlay,
     PhysicsOverlay,
     SettingsWindow,
+    AboutWindow,
 }
 
 /// Trait representing a UI widget.
@@ -81,7 +82,11 @@ impl Widget for MenuBar {
                 state.action_queue.push_back(AppAction::OpenSettingsWindow);
             }
 
-            if ui.button(vec2(180.0, 4.0), "Quit") {
+            if ui.button(vec2(180.0, 4.0), "About") {
+                state.action_queue.push_back(AppAction::OpenAboutWindow);
+            }
+
+            if ui.button(vec2(240.0, 4.0), "Quit") {
                 state.action_queue.push_back(AppAction::Quit);
             }
         });
@@ -332,5 +337,43 @@ impl Widget for SettingsWindow {
 
     fn get_type(&self) -> WidgetType {
         return WidgetType::SettingsWindow;
+    }
+}
+
+pub struct AboutWindow;
+
+impl Widget for AboutWindow {
+    fn render(&self, _camera: &Camera2D, state: &Arc<Mutex<SimState>>, _task_queue: &Arc<Mutex<VecDeque<Task>>>) -> bool {
+        let _state = &mut *state.lock().unwrap();
+        let mut done = false;
+
+        root_ui().window(hash!(), vec2(screen_width() / 2.0 - 200.0, screen_height() / 2.0 - 200.0), vec2(400.0, 400.0), |ui| {
+            ui.label(None, "Visual Physics");
+            ui.label(None, format!("Version {}", env!("CARGO_PKG_VERSION")).as_str());
+            ui.label(None, "Copyright (C) 2026 Jacob Farnsworth");
+
+            ui.label(None, "");
+            
+            ui.label(None, "Visual Physics is licensed under the");
+            ui.label(None, "terms of the GNU GPLv2.");
+
+            ui.label(None, "");
+
+            ui.label(None, "https://github.com/JFarNTIG/simv");
+
+            if ui.button(vec2(180.0, 370.0), "Done") {
+                done = true;
+            }
+        });
+
+        done
+    }
+
+    fn input_event(&mut self, _state: &Arc<Mutex<SimState>>, _event: WidgetInput) -> bool {
+        false
+    }
+
+    fn get_type(&self) -> WidgetType {
+        return WidgetType::AboutWindow;
     }
 }

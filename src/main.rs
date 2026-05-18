@@ -14,7 +14,7 @@ use macroquad::{prelude::*, ui::root_ui};
 
 use sim_thread::spawn_sim_thread;
 use universe::Universe;
-use widget::{Task, Widget, StatusOverlay, MenuBar, PhysicsOverlays, SettingsWindow};
+use widget::{Task, Widget, StatusOverlay, MenuBar, PhysicsOverlays, SettingsWindow, AboutWindow};
 use sim_state::{SimConfig, SimState};
 use actions::AppAction;
 
@@ -176,6 +176,9 @@ impl AppContext {
             match pending_action {
                 AppAction::OpenSettingsWindow => {
                     self.add_widget_if_not_exists(Box::new(SettingsWindow {}));
+                },
+                AppAction::OpenAboutWindow => {
+                    self.add_widget_if_not_exists(Box::new(AboutWindow {}));
                 },
                 AppAction::Quit => {
                     std::process::exit(0);
